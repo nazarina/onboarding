@@ -658,6 +658,127 @@
                 padding: 25px;
             }
         }
+      /* Сетка для 5 шагов блока «Как всё происходит» */
+        .infographic-steps-5 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        @media (min-width: 1024px) {
+            .infographic-steps-5 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            /* Делаем так, чтобы последние два шага красиво смотрелись на широких экранах */
+            .infographic-steps-5 .step-card:nth-child(4),
+            .infographic-steps-5 .step-card:nth-child(5) {
+                grid-column: span 1.5;
+            }
+        
+          /* Горизонтальный скролл для шагов */
+        .infographic-steps-5 {
+            display: flex;
+            gap: 25px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 20px; /* отступ для скроллбара */
+            margin-bottom: 35px;
+            /* Плавный скролл */
+            scroll-behavior: smooth;
+        }
+
+        /* Фиксируем ширину карточек, чтобы они не сжимались и не переносились */
+        .infographic-steps-5 .step-card {
+            flex: 0 0 300px; /* Ширина каждой карточки */
+            scroll-snap-align: start;
+        }
+
+        /* Кастомизация полосы прокрутки для красоты */
+        .infographic-steps-5::-webkit-scrollbar {
+            height: 8px;
+        }
+        .infographic-steps-5::-webkit-scrollbar-track {
+            background: var(--bg-base);
+            border-radius: 4px;
+            box-shadow: var(--neu-in-shadow);
+        }
+        .infographic-steps-5::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 4px;
+        }
+          /* Обертка слайдера со стрелками */
+        .slider-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Контейнер карточек */
+        .infographic-steps-5 {
+            display: flex;
+            gap: 25px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 10px 5px 25px 5px;
+            width: 100%;
+            scrollbar-width: none; /* Скрыть скроллбар в Firefox */
+        }
+
+        .infographic-steps-5::-webkit-scrollbar {
+            display: none; /* Скрыть скроллбар в Chrome/Safari */
+        }
+
+        /* Фиксированный размер карточек */
+        .infographic-steps-5 .step-card {
+            flex: 0 0 310px;
+            scroll-snap-align: start;
+        }
+
+        /* Кнопки прокрутки (на ПК видны, на мобилках можно скрыть, так как там скролл пальцем) */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: var(--white, #ffffff);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--accent-color, #008080);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .slider-btn:hover {
+            background: var(--accent-color, #008080);
+            color: white;
+        }
+
+        .prev-btn {
+            left: -20px;
+        }
+
+        .next-btn {
+            right: -20px;
+        }
+
+        /* На мобильных устройствах прячем стрелки, так как там удобнее скроллить пальцем */
+        @media (max-width: 768px) {
+            .slider-btn {
+                display: none;
+            }
+            .infographic-steps-5 {
+                padding-left: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -687,43 +808,63 @@
     <main>
 
         <!-- 2. Как всё происходит -->
+      <!-- 2. Как всё происходит -->
         <section id="process" class="section">
             <div class="container">
                 <h2 class="section-title">Как всё происходит</h2>
-                <p class="section-subtitle">Пошаговый путь от первого знакомства до уверенного создания игр</p>
+                <p class="section-subtitle">От первого знакомства до самостоятельных проектов</p>
                 
-                <div class="infographic-steps">
-                    <div class="step-card">
-                        <div class="step-icon-badge">💬</div>
-                        <span class="step-number">Шаг 01</span>
-                        <h3>Заявка</h3>
-                        <p>Вы пишете мне, сообщаете возраст ребёнка и направление.</p>
+                <div class="slider-wrapper">
+                    <button class="slider-btn prev-btn" onclick="scrollSlider(-1)" aria-label="Назад">←</button>
+                    
+                    <div class="infographic-steps-5" id="stepsSlider">
+                        <div class="step-card">
+                            <div class="step-icon-badge">💬</div>
+                            <span class="step-number">Шаг 01</span>
+                            <h3>Расскажите о ребёнке</h3>
+                            <p>Напишите его возраст, интересы и был ли раньше опыт программирования. Я задам несколько вопросов и помогу выбрать подходящее направление.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-icon-badge">🧭</div>
+                            <span class="step-number">Шаг 02</span>
+                            <h3>Подберём формат</h3>
+                            <p>Вместе определим направление, удобный формат занятий и расписание.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-icon-badge">🎮</div>
+                            <span class="step-number">Шаг 03</span>
+                            <h3>Попробуйте пробный мастер-класс</h3>
+                            <p>Ребёнок познакомится со мной и сразу создаст свой первый небольшой проект.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-icon-badge">🤝</div>
+                            <span class="step-number">Шаг 04</span>
+                            <h3>Решите, подходит ли формат</h3>
+                            <p>После пробного занятия вы сможете спокойно понять, насколько ребёнку комфортно и интересно. Если всё подходит — договоримся о регулярных занятиях.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-icon-badge">🚀</div>
+                            <span class="step-number">Шаг 05</span>
+                            <h3>Начнём создавать свои проекты</h3>
+                            <p>Постепенно ребёнок будет переходить от заданий к самостоятельной работе: придумывать, планировать, программировать, тестировать и улучшать свои игры.</p>
+                        </div>
                     </div>
-                    <div class="step-card">
-                        <div class="step-icon-badge">🧭</div>
-                        <span class="step-number">Шаг 02</span>
-                        <h3>Знакомство</h3>
-                        <p>Я задаю вопросы, чтобы понять интересы, увлечения и опыт ребёнка.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-icon-badge">🎯</div>
-                        <span class="step-number">Шаг 03</span>
-                        <h3>Формат</h3>
-                        <p>Подбираем подходящий формат занятий и удобное расписание.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-icon-badge">🚀</div>
-                        <span class="step-number">Шаг 04</span>
-                        <h3>Старт</h3>
-                        <p>Подключаемся к занятию, создаем первый проект и погружаемся в IT.</p>
-                    </div>
+
+                    <button class="slider-btn next-btn" onclick="scrollSlider(1)" aria-label="Вперед">→</button>
                 </div>
 
-                <div class="info-box">
-                    💡 <strong>Что происходит после того, как вы напишете:</strong> Никаких агрессивных продаж. Мы в спокойном диалоге выясним точку старта и поймём, будет ли ребёнку комфортно.
-                </div>
+               
             </div>
         </section>
+
+        <!-- Скрипт для стрелочек на ПК -->
+        <script>
+            function scrollSlider(direction) {
+                const slider = document.getElementById('stepsSlider');
+                const scrollAmount = 320; // ширина карточки + отступ
+                slider.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+            }
+        </script>
 
         <!-- 3. О преподавателе -->
         <section class="section">
